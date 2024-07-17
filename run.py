@@ -58,7 +58,7 @@ def validate_data(values):
 
 def update_worksheet(data, worksheet):
     """
-    Recieves a list of integhers to be inserted into a worksheet
+    Recieves a list of integers to be inserted into a worksheet
     Update the relevant worksheet with the data provided
     """
     print(f"Updating the {worksheet} worksheet... \n")
@@ -75,7 +75,7 @@ def calculate_surplus_data(sales_row):
     - Negative surplus indicates extra made when stock was sold out.
     """
     print("Calculating surplus data... \n")
-    stock =SHEET.worksheet("stock").get_all_values()
+    stock = SHEET.worksheet("stock").get_all_values()
     stock_row = stock[-1]
 
     surplus_data = []
@@ -116,8 +116,16 @@ def calculate_stock_data(data):
     return new_stock_data
 
 
+def get_stock_values(data):
+    """
+    Retrieve headings from the worksheet and create a dictionary
+    with headings as keys and data as values.
+    """
+    get_heading = SHEET.worksheet("stock").row_values(1)
+    headings = [heading.title() for heading in get_heading]
+    stock_dict = dict(zip(headings, data))
 
-
+    return stock_dict
 
 def main():
     """
@@ -131,10 +139,13 @@ def main():
     sales_columns = get_last_5_entries_sales()
     stock_data = calculate_stock_data(sales_columns)
     update_worksheet(stock_data, "stock")
-    
+    stock_values = get_stock_values(stock_data)
+    print(stock_values)
 
 print("Welcome to Love Sandwiches Data Automation")
 main()
+
+
                 
 
 
